@@ -34,13 +34,28 @@
 # solution1
 import sys
 
-N, K = map(int, input().split())
+n, k = map(int, input().split())
 
 divisor = []
-for num in range(1,N+1):
-    if N % num == 0:
+for num in range(1,n+1):
+    if n % num == 0:
         divisor.append(num)
-if K <= len(divisor):
-    print(divisor[K-1])
+if k <= len(divisor):
+    print(divisor[k-1])
+else:
+    print(-1)
+
+
+#solution2
+import sys
+
+n, k =map(int, input().split())
+cnt = 0
+for i in range(1, n+1):
+    if n % i ==0:
+        cnt += 1
+    if cnt == k:
+        print(i)
+        break
 else:
     print(-1)
