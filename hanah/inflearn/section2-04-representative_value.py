@@ -30,7 +30,7 @@ N명의 학생 중 평균에 가장 가까운 학생은 몇 번째 학생인지 
 n      = int(input())
 scores = list(map(int, input().split()))
 
-avg = round(sum(scores)/n)
+avg = int(sum(scores)/n + 0.5)
 
 min_diff  = 100
 res_num   = 0
@@ -43,7 +43,7 @@ for i, score in enumerate(scores):
         min_diff  = diff
         res_num   = i
         res_score = score
-    elif diff == min_diff and score > res_score:
+    elif diff == min_diff:
         if score > res_score:
             res_score = score
             res_num = i
