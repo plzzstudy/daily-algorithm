@@ -26,7 +26,7 @@ for i in range(1, n+1):
     for j in range(1, m+1):
         counter[i + j] = counter.get(i + j, 0) + 1
 
-max_value = max([v for v in counter.values()])
+max_value = max(counter.values())
 
 for k, v in counter.items():
     if v == max_value:
