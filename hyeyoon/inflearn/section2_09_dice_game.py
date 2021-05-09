@@ -25,3 +25,43 @@ N 명이 주사위 게임에 참여하였을 때, 가장 많은 상금을 받은
 ▣ 출력예제 1 12000
 
 ```
+
+# solution1
+n = int(input())
+res = 0
+for i in range(n):
+    nums = input().split()
+    nums.sort()
+    a, b, c = map(int, nums)
+    if a == b and b == c:
+        tot = 10000 + a * 1000
+    elif a == b and a != c:
+        tot = 1000 + a * 100
+    elif a != b and b == c:
+        tot = 1000 + b * 100
+    elif a != b and b != c:
+        tot = max(a, b, c) * 100
+    
+    if tot > res:
+        res = tot
+print(res)
+
+
+# solution2
+n = int(input())
+res = 0 
+for i in range(n):
+    tmp = input().split()
+    tmp.sort()
+    a, b , c = map(int, tmp)
+    if a == b and b == c:
+        money = 10000 + a * 1000
+    elif a == b or a == c:
+        money = 1000 + a * 100
+    elif b == c:
+        money = 1000 + b * 100
+    elif:
+        money = c * 100
+    if money > res:
+        res = money
+print(res)
