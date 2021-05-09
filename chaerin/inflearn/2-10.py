@@ -26,3 +26,15 @@ for i in range(1, N):
     else:
         record.append(0)
 print(sum(record))
+
+
+# solution
+sum = 0
+cnt = 0
+for x in result:
+    if x==1:
+        cnt += 1
+        sum += cnt
+    else:
+        cnt = 0
+print(sum)
