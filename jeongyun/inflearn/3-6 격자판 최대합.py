@@ -18,11 +18,13 @@ for i in range(n):
     if sum > max:
         max = sum
 # print(max)
+sum1 = 0
 sum2 = 0
 for i in range(n):
-    for j in range(n):
-        if i == j:
-            sum2 += a[i][j]
-    if sum2 > max:
-        max = sum2
+    sum1 += a[i][i]
+    sum2 += a[i][n-i-1]
+if sum1 > max:
+    max = sum1
+if sum2 > max:
+    max = sum2
 print(max)
