@@ -19,7 +19,17 @@ N개의 수를 오름차순으로 정렬한 다음 N개의 수 중 한 개의 �
 3
 
 '''
-#solution
+#solution1
+n, m = map(int, input().split())
+a = list(map(int, input().split()))
+a.sort()
+
+for i in a:
+    if i == m:
+        idx = a.index(i)
+print(idx +1)
+
+#solution2
 n, m=map(int, input().split())
 a=list(map(int, input().split()))
 a.sort()
