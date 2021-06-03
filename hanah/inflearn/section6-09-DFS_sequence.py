@@ -27,24 +27,52 @@ N은 가장 윗줄에 있는 숫자의 개수를 의미하며 F는 가장 밑에
 3 1 2 4
 
 '''
+
+# solution1
+from math import factorial
+from itertools import permutations
+
 n, f = map(int, input().split())
-p=[0]*n
-b=[1]*n
-ch=[0]*(n+1)
+b = [1] * n # 이항계수 초기화(맨 앞과 맨 뒤는 무조건 1이라서 1로 초기화)
 for i in range(1, n):
-    b[i]=b[i-1]*(n-i)//i
+    b[i] = factorial(n-1) // (factorial(n-1-i) * factorial(i)) # nCr >> 외우기...
 
-def DFS(L, sum):
-    if L==n and sum==f:
-        for x in p:
-            print(x, end=' ')
+for nums in permutations(range(1, n+1), r=n):
+    sum = 0
+    for i, num in enumerate(nums):
+        sum += num * b[i]
+    
+    if sum == f:
+        for num in nums:
+            print(num, end=' ')
+        break
+
+
+# solution2
+import sys
+
+n, f = map(int, input().split())
+b = [1] * n 
+for i in range(1, n):
+    b[i] = b[i-1] * (n-i) // i  # DP방식(더 빠름)
+
+result = [0] * n # 순열
+check = [0] * (n+1) # 순열에 중복된 수가 없도록 체크
+
+def dfs(L, sum):
+    if L == n and sum == f:
+        for num in result:
+            print(num, end=' ')
         sys.exit(0)
-    else:
-        for i in range(1, n+1):
-            if ch[i]==0:
-                ch[i]=1
-                p[L]=i
-                DFS(L+1, sum+(p[L]*b[L]))
-                ch[i]=0
 
-DFS(0, 0)
+    else:
+        for i in range(1, n+1): # 1 ~ n까지 순열 구하기
+            if check[i] == 0: # 아직 순열에 안 쓰인 수라면
+                check[i] = 1
+                result[L] = i
+                dfs(L+1, sum + (result[L] * b[L]))
+                check = 0
+
+dfs(0, 0)
+
+
