@@ -65,3 +65,45 @@ S초 뒤에 (X,Y)에 존재하는 바이러스의 종류를 출력한다. 만약
 0
 
 '''
+import sys
+from collections import deque
+
+n, k = map(int, sys.stdin.readline().rstrip().split())
+graph = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
+target_s, target_x, target_y = map(int, sys.stdin.readline().rstrip().split())
+
+info = [] # graph에서 바이러스가 있는 것에 대한 정보
+for i in range(n):
+    for j in range(n):
+        if graph[i][j] != 0:
+            info.append([graph[i][j], 0, i, j]) # 바이러스 번호, 흐른 시간(0으로 초기화), x좌표, y좌표
+
+# 바이러스가 1인것 부터 먼저 s초 후 상황까지 먼저 처리하기 >> 따라서 바이러스 번호를 기준으로 오름차순 
+info.sort()
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+q = deque(info)
+
+while q:
+    cur_v, s, x, y = q.popleft()
+    
+    if s == target_s: # 새로 큐에서 꺼낸 것 중 흐른시간이 target_s와 같으면 종료
+        break
+
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        if nx < 0 or nx >= n or ny < 0 or ny >= n:
+            continue
+        
+        if graph[nx][ny] == 0:
+            graph[nx][ny] = cur_v
+            q.append([cur_v, s+1, nx, ny])
+    
+
+print(graph[target_x-1][target_y-1])
+
+
