@@ -25,31 +25,27 @@
 41
 
 '''
+
 import sys
-sys.stdin=open("input.txt", "r")
 
-def DFS(L, sum, time):
-    global res
-    if time>m:
+n, m = map(int, sys.stdin.readline().rstrip().split())
+questions = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
+
+max_score = 0
+
+def dfs(L, time_sum, score_sum):
+    global max_score
+
+    if time_sum > m:
         return
-    if L==n:
-        if sum>res:
-            res=sum
+    
+    if L == n:
+        if score_sum > max_score:
+            max_score = score_sum
     else:
-        DFS(L+1, sum+pv[L], time+pt[L])
-        DFS(L+1, sum, time)
+        dfs(L+1, time_sum, score_sum)
+        dfs(L+1, time_sum + questions[L][1], score_sum + questions[L][0])
+        
 
-if __name__=="__main__":
-    n, m=map(int, input().split())
-    pv=list()
-    pt=list()
-    for i in range(n):
-        a, b=map(int, input().split())
-        pv.append(a)
-        pt.append(b)
-    res=-2147000000
-    DFS(0, 0, 0)
-    print(res)
-
-
-
+dfs(0, 0, 0)
+print(max_score)
