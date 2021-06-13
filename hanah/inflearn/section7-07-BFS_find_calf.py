@@ -22,5 +22,28 @@
 '''
 
 import sys
+from collections import deque
 
 s, e = map(int, sys.stdin.readline().rstrip().split())
+d = [1, -1, 5]
+visited = [0] * 10001
+distinct = [0] * 10001 # 해당 번호 지점까지 몇번에 걸쳐 왔는지 
+
+q = deque()
+q.append(s)
+
+while q:
+    cur = q.popleft()
+    if cur == e:
+        break
+
+    for i in range(3):
+        next = cur + d[i]
+        
+        if 1 <= next <= 10000:
+            if visited[next] == 0:
+                visited[next] = 1
+                q.append(next)
+                distinct[next] = distinct[cur] + 1
+                
+print(distinct[e])
