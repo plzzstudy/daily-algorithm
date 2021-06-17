@@ -14,9 +14,9 @@ def DFS(L, sum, tsum):
     if L==n:
         if sum>result:
             result=sum
-        else:
-            DFS(L+1, sum+a[L], tsum+a[L])
-            DFS(L+1, sum, tsum+a[L])
+    else:
+        DFS(L+1, sum+a[L], tsum+a[L])
+        DFS(L+1, sum, tsum+a[L])
 
 if __name__=="__main__":
     c, n=map(int, input().split())
