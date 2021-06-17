@@ -35,3 +35,54 @@ N의 크기는 항상 홀수이다.
 379
 
 '''
+
+import sys
+from collections import deque
+
+n = int(sys.stdin.readline().rstrip())
+arr = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
+
+# BFS로 탐색하면 마름모 모양으로 탐색한다는 것을 이용
+
+# 정 가운데 좌표를 시작점으로
+x = y = n // 2 
+
+q = deque()
+q.append((x, y))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+total = arr[x][y]
+level = 0
+
+visited = [[0] * n for _ in range(n)]
+visited[x][y] = 1
+
+while q:
+    if level == n // 2:
+        break
+    
+    size = len(q)
+    
+    for i in range(size):
+        cur_x, cur_y = q.popleft()
+        for j in range(4):
+            nx = cur_x + dx[j]
+            ny = cur_y + dy[j]
+
+            if visited[nx][ny] == 0:  # 0이면
+                visited[nx][ny] = 1
+                total += arr[nx][ny]
+                q.append((nx, ny))
+    
+    level += 1
+    
+print(total)
+                
+
+
+
+
+
+
