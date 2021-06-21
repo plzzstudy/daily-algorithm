@@ -3,16 +3,16 @@ sys.stdin = open("input.txt", "r")
 
 
 def DFS(L, s):
-    global cnt  # 이거 해줘야 에러 안 남
+    global cnt  
     if L == m:
         for i in range(m):
             print(res[i], end=' ')
         print()
-        cnt += 1  # global 해줘야 됨
+        cnt += 1 
     else:
-        for i in range(s, n+1):  # s부터 n까지
+        for i in range(s, n+1):  
             res[L] = i
-            DFS(L+1, i+1)  # 레벨은 1 증가, 가지 숫자 + 1
+            DFS(L+1, i+1) 
 
 
 if __name__ == "__main__":
