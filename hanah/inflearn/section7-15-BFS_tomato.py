@@ -46,37 +46,89 @@ M은 상자의 가로 칸의 수, N 은 상자의 세로 칸의 수를 나타낸
 
 import sys
 from collections import deque
-#sys.stdin=open("input.txt", "r")
-dx=[-1, 0, 1, 0]
-dy=[0, 1, 0, -1]
-n, m=map(int, input().split())
-board=[list(map(int, input().split())) for _ in range(m)]
-Q=deque()
-dis=[[0]*n for _ in range(m)]
+
+# solution 1
+m, n = map(int, sys.stdin.readline().split())
+arr = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+q = deque()
+for i in range(n):
+    for j in range(m):
+        if arr[i][j] == 1:
+            q.append((i, j))
+
+day = 1
+while q:
+    for i in range(len(q)):
+        x, y = q.popleft()
+
+        for j in range(4):
+            nx = x + dx[j]
+            ny = y + dy[j]
+
+            if 0 <= nx < n and 0 <= ny < m and arr[nx][ny] == 0:
+                arr[nx][ny] = day
+                q.append((nx, ny))
+                
+    day += 1
+
+res = 0
+check_zero = 0
+for i in range(n):
+    for j in range(m):
+        if arr[i][j] == 0:
+            check_zero = 1
+            print(-1)
+            sys.exit(0)
+
+        if arr[i][j] > res:
+            res = arr[i][j]            
+
+if res == 1:
+    print(0)
+else:
+    print(res)
+
+
+
+
+# solution2
+n, m = map(int, sys.stdin.readline().split())
+board = [list(map(int, input().split())) for _ in range(m)]
+dis = [[0]*n for _ in range(m)]
+
+q = deque()
 for i in range(m):
     for j in range(n):
-        if board[i][j]==1:
-            Q.append((i, j))
-while Q:
-    x, y=Q.popleft()
+        if board[i][j] == 1:
+            q.append((i, j))
+
+while q:
+    x, y = q.popleft()
+
     for i in range(4):
-        nx=x+dx[i]
-        ny=y+dy[i]
-        if 0<=nx<m and 0<=ny<n and board[nx][ny]==0:
-            board[nx][ny]=1
-            dis[nx][ny]=dis[x][y]+1
-            Q.append((nx, ny))
-flag=1
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        if 0 <= nx < m and 0 <= ny < n and board[nx][ny] == 0:
+            board[nx][ny] = 1
+            dis[nx][ny] = dis[x][y]+1
+            q.append((nx, ny))
+
+flag = 1
 for i in range(m):
     for j in range(n):
         if board[i][j]==0:
-            flag=0
-result=0
-if flag==1:
+            flag = 0
+
+result = 0
+if flag == 1: # 0이 하나도 없는 경우
     for i in range(m):
         for j in range(n):
-            if dis[i][j]>result:
-                result=dis[i][j]
+            if dis[i][j] > result:
+                result = dis[i][j]
     print(result)
 else:
     print(-1)
