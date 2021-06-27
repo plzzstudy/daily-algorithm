@@ -39,23 +39,58 @@ from itertools import combinations
 n, m = map(int, sys.stdin.readline().split())
 arr = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
 
-# solution1
+houses = [(i, j) for i in range(n) for j in range(n) if arr[i][j] == 1 ]
 stores = [(i, j) for i in range(n) for j in range(n) if arr[i][j] == 2 ]
 
+# solution1
 res = 2500
 for combination in combinations(stores, m):
+    # 새로운 combination을 구할 때 마다 sum 초기화
     sum = 0
-    for i in range(n):
-        for j in range(n):
-            if arr[i][j] == 1:
-                min_dis = 2500
-                for store in combination:
-                    dis = abs(i - store[0]) + abs(j - store[1])
-                    if dis < min_dis:
-                        min_dis = dis
-                    
-                sum += min_dis
+    for house in houses:
+        min_dis = 2500
+        for store in combination:
+            dis = abs(house[0] - store[0]) + abs(house[1] - store[1])
+            if dis < min_dis:
+                min_dis = dis
+            
+        sum += min_dis
     if sum < res:
         res = sum
 
+print(res)
+
+
+# solution2
+houses = []
+stores = []
+for i in range(n):
+    for j in range(n):
+        if arr[i][j] == 1:
+            houses.append((i, j))
+        elif arr[i][j] == 2:
+            stores.append((i, j))
+
+
+res = 2147000000
+cb = [0] * m # combination
+def dfs(L, ns):
+    global res
+    if L == m:
+        # 새로운 combination을 구할 때 마다 sum 초기화
+        sum = 0
+        for house in houses:
+            dis = 2500
+            for store in cb:
+                dis = min(dis, abs(house[0] - store[0]) + abs(house[1] - store[1]))
+            sum += dis
+        if sum < res:
+            res = sum
+            
+    else:
+        for i in range(ns, len(stores)):
+            cb[L] = stores[i]
+            dfs(L+1, i+1)
+
+dfs(0, 0)
 print(res)
