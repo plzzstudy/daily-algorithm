@@ -16,12 +16,46 @@ N×N 크기의 도시지도가 있습니다. 도시지도는 1×1크기의 격�
 도시의 피자 배달 거리는 각 집들의 피자 배달 거리를 합한 것을 말합니다.
 
 ▣ 입력설명
-첫째 줄에 N(2 ≤ N ≤ 50)과 M(1 ≤ M ≤ 12)이 주어진다. 둘째 줄부터 도시 정보가 입력된다.
+첫째 줄에 N(2 ≤ N ≤ 50)과 M(1 ≤ M ≤ 12)이 주어진다. 
+둘째 줄부터 도시 정보가 입력된다.
+
 ▣ 출력설명
 첫째 줄에 M개의 피자집이 선택되었을 때 도시의 최소 피자배달거리를 출력한다.
-▣ 입력예제 1 44
-0120 1021 0212 2012
+
+▣ 입력예제 1 
+4 4
+0 1 2 0 
+1 0 2 1 
+0 2 1 2  
+2 0 1 2
+
 ▣ 출력예제 1
 6
 
 '''
+import sys
+from itertools import combinations
+
+n, m = map(int, sys.stdin.readline().split())
+arr = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
+
+# solution1
+stores = [(i, j) for i in range(n) for j in range(n) if arr[i][j] == 2 ]
+
+res = 2500
+for combination in combinations(stores, m):
+    sum = 0
+    for i in range(n):
+        for j in range(n):
+            if arr[i][j] == 1:
+                min_dis = 2500
+                for store in combination:
+                    dis = abs(i - store[0]) + abs(j - store[1])
+                    if dis < min_dis:
+                        min_dis = dis
+                    
+                sum += min_dis
+    if sum < res:
+        res = sum
+
+print(res)
