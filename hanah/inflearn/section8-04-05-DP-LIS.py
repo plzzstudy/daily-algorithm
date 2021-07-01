@@ -27,6 +27,18 @@ import sys
 n = int(sys.stdin.readline())
 arr = list(map(int, sys.stdin.readline().rstrip().split()))
 
+
+# solution1
+dp = [1] * n # 각 인덱스까지의 가장 작은 부분 증가수열은 1이므로 1로 초기화
+
+for i in range(1, n):
+    for j in range(i):
+        if arr[j] < arr[i]:
+            dp[i] = max(dp[i], dp[j] + 1)
+
+print(max(dp))
+
+# solution2
 arr.insert(0,0)
 dp = [0] * (n+1)
 dp[1] = 1
