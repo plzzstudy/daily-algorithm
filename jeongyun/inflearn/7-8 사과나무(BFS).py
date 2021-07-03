@@ -1,3 +1,29 @@
-현수의 농장은 N*N 격자판으로 이루어져 있으며, 각 격자안에는 한 그루의 사과나무가 심어져 있다. N의 크기는 항상 홀수이다. 가을이 되어 사과를 수확해야 하는데 현수는 격자판안의 사과를 수확할 때 다이아몬드 모양의 격자판만 수확하고 나머지 격자안의 사과는 새들을 위해서 남겨놓는다.
-만약 N이 5이면 아래 그림과 같이 진한 부분의 사과를 수확한다.
-현수가 수확하는 사과의 총 개수를 출력하세요.
+import sys
+from collections import deque
+# sys.stdin = open("input.txt", "r")
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+n = int(input())
+a = [list(map(int, input().split())) for _ in range(n)]
+ch = [[0] * n for _ in range(n)]
+sum = 0
+Q = deque()
+ch[n // 2][n // 2] = 1
+sum += a[n // 2][n // 2]
+Q.append((n // 2, n // 2))
+L = 0
+while True:
+    if L == n // 2:
+        break
+    size = len(Q)
+    for i in range(size):
+        tmp = Q.popleft()
+        for j in range(4):
+            x = tmp[0] + dx[j]
+            y = tmp[1] + dy[j]
+            if ch[x][y] == 0:
+                sum += a[x][y]
+                ch[x][y] = 1
+                Q.append((x, y))
+    L += 1
+print(sum)
