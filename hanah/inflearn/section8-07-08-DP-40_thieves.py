@@ -42,9 +42,10 @@ import sys
 n = int(sys.stdin.readline())
 arr = [list(map(int, sys.stdin.readline().rstrip().split())) for _ in range(n)]
 
-# solution1 Bottom-up
 
+# solution1 (bottom-up)
 dp = [[0] * n for _ in range(n)]
+
 dp[0][0] = arr[0][0]
 for i in range(1, n):
     dp[0][i] = dp[0][i-1] + arr[0][i]
@@ -55,3 +56,24 @@ for i in range(1, n):
         dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + arr[i][j]
 
 print(dp[n-1][n-1])
+
+
+
+# solution2 (top-down)
+dp = [[0] * n for _ in range(n)]
+
+def topdown(x, y):
+    if dp[x][y] > 0:  # 이미 계산한 적이 있는 문제라면 그대로 반환
+        return dp[x][y]
+
+    if x == 0 and y == 0:
+        return arr[0][0]
+    elif x == 0:
+        return topdown(0, y-1) + arr[0][y]
+    elif y == 0:
+        return topdown(x-1, 0) + arr[x][0]
+    
+    dp[x][y] = min(topdown(x-1, y), topdown(x, y-1)) + arr[x][y]
+    return dp[x][y]
+
+print(topdown(n-1, n-1))
