@@ -23,14 +23,18 @@
 
 '''
 
+import sys
+
 n = int(input())
-coin = list(map(int, input().split()))
-m = int(input())
-dy = [1000] * (m+1)
-dy[0] = 0
+coins = list(map(int, sys.stdin.readline().split()))
+lt = int(input())
 
-for i in range(n):
-    for j in range(coin[i], m+1):
-        dy[j] = min(dy[j], dy[j-coin[i]]+1)
+# dp[x]는 금액 x를 만들 수 있는 최소 동전 개수
+dp = [1000] * (lt+1) # 최소 값을 구해야 하기 때문에 대충 큰 수로 초기화
+dp[0] = 0
 
-print(dy[m])
+for coin in coins:
+    for x in range(coin, lt+1):
+        dp[x] = min(dp[x - coin] + 1, dp[x])
+
+print(dp[lt])
