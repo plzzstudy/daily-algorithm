@@ -1,20 +1,33 @@
-▣ 입력설명
-첫째 줄에는 어떤 지역을 나타내는 2차원 배열의 행과 열의 개수를 나타내는 수 N이
-입력된다. N은 2 이상 100 이하의 정수이다. 둘째 줄부터 N 개의 각 줄에는 2차원 배열의 첫
-번째 행부터 N번째 행까지 순서대로 한 행씩 높이 정보가 입력된다. 각 줄에는 각 행의 첫
-번째 열부터 N번째 열까지 N 개의 높이 정보를 나타내는 자연수가 빈 칸을 사이에 두고
-입력된다. 높이는 1이상 100 이하의 정수이다.
+import sys
+# sys.stdin=open("input.txt", "r")
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+sys.setrecursionlimit(10**6)
 
-▣ 출력설명
-첫째 줄에 장마철에 물에 잠기지 않는 안전한영역의 최대 개수를 출력한다.
 
-▣ 입력예제 1
-5
-6 8 2 6 2
-3 2 3 4 6
-6 7 3 3 2
-7 2 5 3 6
-8 9 5 2 7
+def DFS(x, y, h):
+    ch[x][y] = 1
+    for i in range(4):
+        xx = x+dx[i]
+        yy = y+dy[i]
+        if 0 <= xx < n and 0 <= yy < n and ch[xx][yy] == 0 and board[xx][yy] > h:
+            DFS(xx, yy, h)
 
-▣ 출력예제 1
-5
+
+if __name__ == "__main__":
+    n = int(input())
+    cnt = 0
+    res = 0
+    board = [list(map(int, input().split())) for _ in range(n)]
+    for h in range(100):
+        ch = [[0]*n for _ in range(n)]
+        cnt = 0
+        for i in range(n):
+            for j in range(n):
+                if ch[i][j] == 0 and board[i][j] > h:
+                    cnt += 1
+                    DFS(i, j, h)
+        res = max(res, cnt)
+        if cnt == 0:
+            break
+    print(res)
