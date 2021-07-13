@@ -35,7 +35,7 @@ dp = [0] * (lt + 1)
 
 for i in range(n):
     score, time = map(int, sys.stdin.readline().rstrip().split())
-    for j in range(lt, time-1, -1):
+    for j in range(lt, time-1, -1): # 풀었던 문제를 또 풀지 않아야 하므로 dp테이블을 뒤에서 부터 채워나간다
         dp[j] = max(dp[j - time] + score, dp[j])
 
 print(dp[lt])
