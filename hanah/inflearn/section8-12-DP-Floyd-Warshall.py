@@ -33,4 +33,30 @@ M 3 M 0 7
 M M M M 0
 
 '''
+import sys
 
+n, m = map(int, sys.stdin.readline().split())
+
+# 인접행렬로 dp테이블 초기화
+dp = [[20000] * (n+1) for _ in range(n+1)]
+for i in range(n+1):
+    dp[i][i] = 0
+
+for i in range(m):
+    a, b, x = map(int, sys.stdin.readline().rstrip().split())
+    dp[a][b] = x
+
+# print(dp)
+
+for k in range(1, n+1):
+    for i in range(1, n+1):
+        for j in range(1, n+1): 
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]) # 바로 연결되 있는 경우랑, 어디를 거쳐서 오는 경우 중 적은 것으로
+            
+for i in range(1, n+1):
+    for j in range(1, n+1):
+        if dp[i][j] == 20000:
+            print("M", end=' ')
+        else:
+            print(dp[i][j], end=' ')
+    print()
