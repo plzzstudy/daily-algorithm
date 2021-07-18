@@ -51,7 +51,8 @@ for i in range(m):
 for k in range(1, n+1):
     for i in range(1, n+1):
         for j in range(1, n+1): 
-            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]) # 바로 연결되 있는 경우랑, 어디를 거쳐서 오는 경우 중 적은 것으로
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]) 
+            # i->j를 가는 방법 중 i, j가 바로 연결되 있는 경우랑, 어디를 거쳐서 오는 경우 중 적은 것으로
             
 for i in range(1, n+1):
     for j in range(1, n+1):
