@@ -44,11 +44,29 @@
 
 '''
 import sys
+from collections import deque
 
 n, m = map(int, sys.stdin.readline().split())
+graph = [[0] * (n+1) for _ in range(n+1)] # 행 index -> 열 index
+degree = [0] * (n+1)
+for i in range(m):
+    a, b = map(int, sys.stdin.readline().rstrip().split())
+    graph[a][b] = 1
+    degree[b] += 1 # 각 노드의 진입 차수를 계산
 
-# 각 노드의 진입 차수를 계산
+q = deque()
+for i in range(1, n+1):
+    if degree[i] == 0: # 진입차수가 0인 노드를 queue에 넣는다
+        q.append(i)
 
-# 진입차수가 작은 노드부터 큐에 넣는다
+# 진입차수가 0인 노드를 큐에서 지우면서(=작업을 처리함을 의미) 
+# 그 노드가 진입차수로 있던 노드의 degree를 하나 감소시킨다
+while q:
+    x = q.popleft()
+    print(x, end=' ')
+    for i in range(1, n+1):
+        if graph[x][i] == 1: # x노드에서 연결된 노드가 있다면 그 노드의 진입차수에서 -1하기 
+            degree[i] -= 1
+            if degree[i] == 0:
+                q.append(i)
 
-# 큐에서 지우면서 그 노드가 진입차수로 있던 노드의 degree를 하나 감소시킨다
