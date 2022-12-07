@@ -10,35 +10,22 @@
 """
 
 
-def solution(new_id):
-    new_id = new_id.lower()
-    answer = ""
-    for word in new_id:
-        if word.isalnum() or word in ("-", "_", "."):
-            answer += word
-    while ".." in answer:
-        answer = answer.replace("..", ".")
+def solution(n, k):
+    res = 0
+    while True:
+        target = (n // k) * k
+        res += n - target
+        n = target
 
-    if answer[0] == "." and len(answer) > 1:
-        answer = answer[1:]
-    if answer[-1] == ".":
-        answer = answer[:-1]
-    if answer == "":
-        answer = "a"
+        if n < k:
+            break
 
-    if len(answer) >= 16:
-        answer = answer[:15]
-        if answer[-1] == ".":
-            answer = answer[:-1]
-
-    elif len(answer) <= 2:
-        while len(answer) < 3:
-            answer = answer + answer[-1]
-
-    return answer
+        n //= k
+        res += 1
+    result += n - 1
 
 
-solution("...!@BaT#*..y.abcdefghijklm")
+solution(25, 3)
 
 
 # "bat.y.abcdefghi"
